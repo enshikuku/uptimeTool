@@ -18,7 +18,7 @@
 
   const initialStateElement = document.getElementById('initial-results');
   const statusMap = new Map();
-  const checkIntervalMs = Number(document.body.dataset.checkIntervalMs) || 60_000;
+  const checkIntervalMs = Number(document.body.dataset.checkIntervalMs) || 15_000;
 
   let results = readInitialResults();
   let isManualCheckPending = false;
