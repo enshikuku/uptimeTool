@@ -1,90 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Uptime Monitor</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body data-check-interval-ms="<%= checkIntervalMs %>">
-    <div class="background-orb orb-left"></div>
-    <div class="background-orb orb-right"></div>
 
-    <main class="container">
-      <header class="topbar">
-        <div class="title-wrap">
-          <h1>Uptime Monitor</h1>
-          <p>Live health checks for websites and TCP services.</p>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uptime Monitor</title>
+  <!-- Favicon and manifest -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+  <!-- Logo as shortcut icon (optional) -->
+  <link rel="shortcut icon" href="/logo/logo.png" type="image/png">
+  <!-- Custom Font: MPLUSCodeLatin -->
+  <link rel="preload" href="/fonts/static/MPLUSCodeLatin-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    @font-face {
+      font-family: 'MPLUSCodeLatin';
+      src: url('/fonts/static/MPLUSCodeLatin-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
 
-        <button id="checkNowButton" class="check-now-button" type="button">
-          <span id="checkNowSpinner" class="spinner hidden" aria-hidden="true"></span>
-          <span id="checkNowLabel">Check Now</span>
-        </button>
-      </header>
+    @font-face {
+      font-family: 'MPLUSCodeLatin';
+      src: url('/fonts/static/MPLUSCodeLatin-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
 
-      <section class="summary-grid" aria-label="Monitoring summary">
-        <article class="summary-card">
-          <span class="summary-label">Total Targets</span>
-          <strong id="totalTargets" class="summary-value">0</strong>
-        </article>
-        <article class="summary-card up">
-          <span class="summary-label">Total UP</span>
-          <strong id="totalUp" class="summary-value">0</strong>
-        </article>
-        <article class="summary-card down">
-          <span class="summary-label">Total DOWN</span>
-          <strong id="totalDown" class="summary-value">0</strong>
-        </article>
-        <article class="summary-card neutral">
-          <span class="summary-label">Uptime %</span>
-          <strong id="uptimePercentage" class="summary-value">0%</strong>
-        </article>
-      </section>
+    body,
+    button,
+    input,
+    select,
+    textarea,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    strong,
+    span,
+    div {
+      font-family: 'MPLUSCodeLatin', 'Manrope', 'Trebuchet MS', 'Verdana', sans-serif !important;
+    }
+  </style>
+</head>
 
-      <section class="meta-strip" aria-label="Check metadata">
-        <div class="meta-item">
-          <span class="meta-label">Last Updated</span>
-          <strong id="lastUpdated" class="meta-value">Waiting for first check</strong>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Next Auto Check</span>
-          <strong id="nextCheckCountdown" class="meta-value">--</strong>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Cycle Duration</span>
-          <strong id="cycleDuration" class="meta-value">--</strong>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Completed Cycles</span>
-          <strong id="completedCycles" class="meta-value">0</strong>
-        </div>
-      </section>
+<body data-check-interval-ms="<%= checkIntervalMs %>">
+  <div class="background-orb orb-left"></div>
+  <div class="background-orb orb-right"></div>
 
-      <section class="monitor-section">
-        <div class="section-header">
-          <h2>Websites</h2>
-          <span id="websitesCountBadge" class="count-badge">0 targets</span>
-        </div>
-        <div id="websitesGrid" class="grid" aria-live="polite"></div>
-      </section>
+  <main class="container">
+    <header class="topbar">
+      <img src="/logo/logo.png" alt="App Logo"
+        style="height: 48px; width: 48px; margin-right: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);" />
+      <div class="title-wrap">
+        <h1>Uptime Monitor</h1>
+        <p>Live health checks for websites and TCP services.</p>
+      </div>
+      <button id="checkNowButton" class="check-now-button" type="button">
+        <span id="checkNowSpinner" class="spinner hidden" aria-hidden="true"></span>
+        <span id="checkNowLabel">Check Now</span>
+      </button>
+    </header>
 
-      <section class="monitor-section">
-        <div class="section-header">
-          <h2>Servers (TCP)</h2>
-          <span id="serversCountBadge" class="count-badge">0 targets</span>
-        </div>
-        <div id="serversGrid" class="grid" aria-live="polite"></div>
-      </section>
+    <section class="summary-grid" aria-label="Monitoring summary">
+      <article class="summary-card">
+        <span class="summary-label">Total Targets</span>
+        <strong id="totalTargets" class="summary-value">0</strong>
+      </article>
+      <article class="summary-card up">
+        <span class="summary-label">Total UP</span>
+        <strong id="totalUp" class="summary-value">0</strong>
+      </article>
+      <article class="summary-card down">
+        <span class="summary-label">Total DOWN</span>
+        <strong id="totalDown" class="summary-value">0</strong>
+      </article>
+      <article class="summary-card neutral">
+        <span class="summary-label">Uptime %</span>
+        <strong id="uptimePercentage" class="summary-value">0%</strong>
+      </article>
+    </section>
 
-      <p id="emptyState" class="empty-state hidden">
-        No check results yet. The first monitoring cycle is running.
-      </p>
-    </main>
+    <section class="meta-strip" aria-label="Check metadata">
+      <div class="meta-item">
+        <span class="meta-label">Last Updated</span>
+        <strong id="lastUpdated" class="meta-value">Waiting for first check</strong>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Next Auto Check</span>
+        <strong id="nextCheckCountdown" class="meta-value">--</strong>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Cycle Duration</span>
+        <strong id="cycleDuration" class="meta-value">--</strong>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Completed Cycles</span>
+        <strong id="completedCycles" class="meta-value">0</strong>
+      </div>
+    </section>
 
-    <script id="initial-results" type="application/json">
+    <section class="monitor-section">
+      <div class="section-header">
+        <h2>Websites</h2>
+        <span id="websitesCountBadge" class="count-badge">0 targets</span>
+      </div>
+      <div id="websitesGrid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <section class="monitor-section">
+      <div class="section-header">
+        <h2>Servers (TCP)</h2>
+        <span id="serversCountBadge" class="count-badge">0 targets</span>
+      </div>
+      <div id="serversGrid" class="grid" aria-live="polite"></div>
+    </section>
+
+    <p id="emptyState" class="empty-state hidden">
+      No check results yet. The first monitoring cycle is running.
+    </p>
+  </main>
+
+  <script id="initial-results" type="application/json">
       <%- JSON.stringify(results).replace(/</g, '\\u003c') %>
     </script>
-    <script src="/dashboard.js" defer></script>
-  </body>
+  <script src="/dashboard.js" defer></script>
+</body>
+
 </html>
