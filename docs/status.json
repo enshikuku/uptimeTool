@@ -1,4 +1,83 @@
 {
-  "lastRunUtc": "1970-01-01T00:00:00.000Z",
-  "targets": []
+  "lastRunUtc": "2026-02-26T06:51:47.630Z",
+  "targets": [
+    {
+      "type": "url",
+      "name": "AIMHub Lighthouses",
+      "target": "https://aimhublighthouses.uoeld.ac.ke",
+      "ok": true,
+      "status": 200,
+      "ms": 6994
+    },
+    {
+      "type": "url",
+      "name": "AIMHub API",
+      "target": "https://aimhub-api.duckdns.org/",
+      "ok": true,
+      "status": 200,
+      "ms": 944
+    },
+    {
+      "type": "url",
+      "name": "FlycationKE",
+      "target": "https://flycationke.duckdns.org/",
+      "ok": true,
+      "status": 200,
+      "ms": 688
+    },
+    {
+      "type": "url",
+      "name": "FlycationKE API",
+      "target": "https://flycationke-api.duckdns.org/",
+      "ok": true,
+      "status": 200,
+      "ms": 504
+    },
+    {
+      "type": "url",
+      "name": "Pathle Consultants",
+      "target": "https://pathleconsultants.duckdns.org/",
+      "ok": true,
+      "status": 200,
+      "ms": 529
+    },
+    {
+      "type": "url",
+      "name": "Bikexify App",
+      "target": "https://app.bikexify.co.ke",
+      "ok": true,
+      "status": 200,
+      "ms": 673
+    },
+    {
+      "type": "url",
+      "name": "Bikexify API",
+      "target": "https://api.bikexify.co.ke",
+      "ok": true,
+      "status": 200,
+      "ms": 440
+    },
+    {
+      "type": "url",
+      "name": "Bikexify",
+      "target": "https://bikexify.co.ke",
+      "ok": true,
+      "status": 200,
+      "ms": 701
+    },
+    {
+      "type": "tcp",
+      "name": "Denmark SSH",
+      "target": "193.181.211.219:22",
+      "ok": true,
+      "ms": 141
+    },
+    {
+      "type": "tcp",
+      "name": "UoE SSH",
+      "target": "41.89.169.160:9160",
+      "ok": true,
+      "ms": 257
+    }
+  ]
 }
