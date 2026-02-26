@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uptime Monitor</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-check-interval-ms="<%= checkIntervalMs %>">
+    <div class="background-orb orb-left"></div>
+    <div class="background-orb orb-right"></div>
+
+    <main class="container">
+      <header class="topbar">
+        <div class="title-wrap">
+          <h1>Uptime Monitor</h1>
+          <p>Live health checks for websites and TCP services.</p>
+        </div>
+
+        <button id="checkNowButton" class="check-now-button" type="button">
+          <span id="checkNowSpinner" class="spinner hidden" aria-hidden="true"></span>
+          <span id="checkNowLabel">Check Now</span>
+        </button>
+      </header>
+
+      <section class="summary-grid" aria-label="Monitoring summary">
+        <article class="summary-card">
+          <span class="summary-label">Total Targets</span>
+          <strong id="totalTargets" class="summary-value">0</strong>
+        </article>
+        <article class="summary-card up">
+          <span class="summary-label">Total UP</span>
+          <strong id="totalUp" class="summary-value">0</strong>
+        </article>
+        <article class="summary-card down">
+          <span class="summary-label">Total DOWN</span>
+          <strong id="totalDown" class="summary-value">0</strong>
+        </article>
+        <article class="summary-card neutral">
+          <span class="summary-label">Uptime %</span>
+          <strong id="uptimePercentage" class="summary-value">0%</strong>
+        </article>
+      </section>
+
+      <section class="meta-strip" aria-label="Check metadata">
+        <div class="meta-item">
+          <span class="meta-label">Last Updated</span>
+          <strong id="lastUpdated" class="meta-value">Waiting for first check</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Next Auto Check</span>
+          <strong id="nextCheckCountdown" class="meta-value">--</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Cycle Duration</span>
+          <strong id="cycleDuration" class="meta-value">--</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Completed Cycles</span>
+          <strong id="completedCycles" class="meta-value">0</strong>
+        </div>
+      </section>
+
+      <section class="monitor-section">
+        <div class="section-header">
+          <h2>Websites</h2>
+          <span id="websitesCountBadge" class="count-badge">0 targets</span>
+        </div>
+        <div id="websitesGrid" class="grid" aria-live="polite"></div>
+      </section>
+
+      <section class="monitor-section">
+        <div class="section-header">
+          <h2>Servers (TCP)</h2>
+          <span id="serversCountBadge" class="count-badge">0 targets</span>
+        </div>
+        <div id="serversGrid" class="grid" aria-live="polite"></div>
+      </section>
+
+      <p id="emptyState" class="empty-state hidden">
+        No check results yet. The first monitoring cycle is running.
+      </p>
+    </main>
+
+    <script id="initial-results" type="application/json">
+      <%- JSON.stringify(results).replace(/</g, '\\u003c') %>
+    </script>
+    <script src="/dashboard.js" defer></script>
+  </body>
+</html>
