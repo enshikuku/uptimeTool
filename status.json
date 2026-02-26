@@ -1,5 +1,5 @@
 {
-  "lastRunUtc": "2026-02-26T06:38:31.766Z",
+  "lastRunUtc": "2026-02-26T06:44:26.397Z",
   "targets": [
     {
       "type": "url",
@@ -7,7 +7,7 @@
       "target": "https://aimhublighthouses.uoeld.ac.ke",
       "ok": true,
       "status": 307,
-      "ms": 1691
+      "ms": 1780
     },
     {
       "type": "url",
@@ -15,7 +15,7 @@
       "target": "https://aimhub-api.duckdns.org/",
       "ok": true,
       "status": 200,
-      "ms": 1024
+      "ms": 918
     },
     {
       "type": "url",
@@ -23,7 +23,7 @@
       "target": "https://flycationke.duckdns.org/",
       "ok": true,
       "status": 200,
-      "ms": 895
+      "ms": 1027
     },
     {
       "type": "url",
@@ -31,7 +31,7 @@
       "target": "https://flycationke-api.duckdns.org/",
       "ok": true,
       "status": 200,
-      "ms": 523
+      "ms": 586
     },
     {
       "type": "url",
@@ -39,7 +39,7 @@
       "target": "https://pathleconsultants.duckdns.org/",
       "ok": true,
       "status": 200,
-      "ms": 919
+      "ms": 1053
     },
     {
       "type": "url",
@@ -47,7 +47,7 @@
       "target": "https://app.bikexify.co.ke",
       "ok": true,
       "status": 200,
-      "ms": 759
+      "ms": 652
     },
     {
       "type": "url",
@@ -55,7 +55,7 @@
       "target": "https://api.bikexify.co.ke",
       "ok": true,
       "status": 200,
-      "ms": 730
+      "ms": 680
     },
     {
       "type": "url",
@@ -63,29 +63,21 @@
       "target": "https://bikexify.co.ke",
       "ok": true,
       "status": 200,
-      "ms": 866
-    },
-    {
-      "type": "url",
-      "name": "Innovation Week",
-      "target": "https://innovationweek.uoeld.ac.ke",
-      "ok": false,
-      "status": 502,
-      "ms": 1489
+      "ms": 624
     },
     {
       "type": "tcp",
       "name": "Denmark SSH",
       "target": "193.181.211.219:22",
       "ok": true,
-      "ms": 151
+      "ms": 158
     },
     {
       "type": "tcp",
       "name": "UoE SSH",
       "target": "41.89.169.160:9160",
       "ok": true,
-      "ms": 262
+      "ms": 281
     }
   ]
 }
