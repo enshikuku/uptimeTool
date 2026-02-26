@@ -1,0 +1,17 @@
+{
+  "name": "uptime-monitor",
+  "version": "1.0.0",
+  "description": "Lightweight uptime monitoring dashboard for websites and servers",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ejs": "^3.1.10"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
