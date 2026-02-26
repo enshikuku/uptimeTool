@@ -47,6 +47,7 @@ async function checkUrl(target) {
       method: "GET",
       redirect: "follow",
       signal: controller.signal,
+      headers: { "User-Agent": "GitHub-Uptime-Monitor" },
     });
     clearTimeout(timer);
     // Consume body to release resources
@@ -164,17 +165,26 @@ async function main() {
   }
 
   const timestamp = new Date().toISOString();
+
+  // Run ALL checks in parallel for speed
+  const checked = await Promise.all(
+    TARGETS.map(async (t) => {
+      let result;
+      if (t.type === "url") {
+        result = await checkUrl(t.target);
+      } else {
+        const [host, port] = t.target.split(":");
+        result = await checkTcp(host, port);
+      }
+      return { target: t, result };
+    })
+  );
+
+  // Build results and send alerts for state transitions
   const results = [];
+  const alerts = [];
 
-  for (const t of TARGETS) {
-    let result;
-    if (t.type === "url") {
-      result = await checkUrl(t.target);
-    } else if (t.type === "tcp") {
-      const [host, port] = t.target.split(":");
-      result = await checkTcp(host, port);
-    }
-
+  for (const { target: t, result } of checked) {
     const entry = { type: t.type, name: t.name, target: t.target, ok: result.ok };
     if (result.status !== undefined) entry.status = result.status;
     entry.ms = result.ms;
@@ -182,24 +192,22 @@ async function main() {
     results.push(entry);
 
     const wasOk = previousState[t.target];
-    // Alert on UP -> DOWN transition
     if (wasOk === true && !result.ok) {
-      console.log(`ALERT: ${t.name} went DOWN`);
-      await sendAlert(t, result, timestamp);
+      alerts.push(sendAlert(t, result, timestamp));
+    } else if (wasOk === false && result.ok) {
+      alerts.push(sendRecoveryAlert(t, result, timestamp));
     }
-    // Notify on DOWN -> UP recovery
-    if (wasOk === false && result.ok) {
-      console.log(`RECOVERY: ${t.name} is back UP`);
-      await sendRecoveryAlert(t, result, timestamp);
-    }
-
-    const icon = result.ok ? "✅" : "❌";
-    console.log(`${icon} ${t.name} — ${result.ok ? "UP" : "DOWN"} (${result.ms}ms)`);
   }
+
+  // Send all alerts in parallel
+  if (alerts.length) await Promise.all(alerts);
+
+  // Summary
+  const up = results.filter((r) => r.ok).length;
+  console.log(`${up}/${results.length} targets UP — ${new Date().toISOString()}`);
 
   const output = { lastRunUtc: timestamp, targets: results };
   fs.writeFileSync(STATUS_FILE, JSON.stringify(output, null, 2) + "\n");
-  console.log(`\nStatus written to ${STATUS_FILE}`);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

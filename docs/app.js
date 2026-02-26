@@ -57,14 +57,19 @@
     }
   }
 
+  const $refreshIndicator = document.getElementById("refresh-indicator");
+
   async function fetchStatus() {
+    if ($refreshIndicator) $refreshIndicator.textContent = "\u{1F504} Refreshing\u2026";
     try {
       const res = await fetch(STATUS_URL + "?ts=" + Date.now(), { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       renderTargets(data);
+      if ($refreshIndicator) $refreshIndicator.textContent = "\uD83D\uDFE2 Auto-refresh active (30 s)";
     } catch (err) {
       $lastChecked.textContent = "Failed to load status: " + err.message;
+      if ($refreshIndicator) $refreshIndicator.textContent = "\uD83D\uDD34 Refresh failed";
     }
   }
 

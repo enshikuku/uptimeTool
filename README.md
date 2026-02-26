@@ -2,7 +2,7 @@
 
 A lightweight, zero-dependency uptime monitor powered by **GitHub Actions** and **GitHub Pages**.
 
-- Checks HTTP(S) endpoints and TCP ports every 5 minutes
+- Checks HTTP(S) endpoints and TCP ports every 1 minute (parallel execution)
 - Static dashboard — no backend required
 - Alerts via **Telegram** or **GitHub Issues** on state transitions (UP → DOWN and DOWN → UP)
 
