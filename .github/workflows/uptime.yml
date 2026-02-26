@@ -2,7 +2,7 @@ name: Uptime Checks
 
 on:
   schedule:
-    - cron: "* * * * *"   # every 1 minute
+    - cron: "*/5 * * * *"   # every 5 minutes
   workflow_dispatch:          # manual trigger
 
 permissions:
