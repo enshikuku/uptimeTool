@@ -164,9 +164,8 @@
     }
 
     return `
-      <article class="target-card ${target.status === 'UP' ? 'is-up' : 'is-down'} ${
-      hasChanged ? 'status-changed' : ''
-    }">
+      <article class="target-card ${target.status === 'UP' ? 'is-up' : 'is-down'} ${hasChanged ? 'status-changed' : ''
+      }">
         <div class="target-card-header">
           <span class="status-badge ${getBadgeClass(target.status)}">${escapeHtml(target.status)}</span>
           <span class="response-time">${escapeHtml(toDuration(target.responseTime))}</span>
@@ -185,11 +184,10 @@
           <span>Last failure: ${escapeHtml(toLocalDateTime(target.lastFailureTime))}</span>
         </div>
 
-        ${
-          statusDetails.length > 0
-            ? `<p class="target-error">${escapeHtml(statusDetails.join(' | '))}</p>`
-            : ''
-        }
+        ${statusDetails.length > 0
+        ? `<p class="target-error">${escapeHtml(statusDetails.join(' | '))}</p>`
+        : ''
+      }
       </article>
     `;
   }
@@ -319,5 +317,5 @@
 
   setInterval(() => {
     void fetchStatus();
-  }, Math.min(checkIntervalMs / 6, 10_000));
+  }, 15_000); // 15 seconds
 })();
