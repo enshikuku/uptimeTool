@@ -6,7 +6,6 @@
  */
 
 const https = require("https");
-const http = require("http");
 const net = require("net");
 const fs = require("fs");
 const path = require("path");
@@ -35,24 +34,31 @@ const TCP_TIMEOUT_MS = 5_000;
 // Alert method: "telegram" | "github-issue" | "none"
 const ALERT_METHOD = process.env.ALERT_METHOD || "telegram";
 
-const STATUS_FILE = path.resolve(__dirname, "..", "status.json");
+const STATUS_FILE = path.resolve(__dirname, "..", "docs", "status.json");
 
 // ─── Checkers ───────────────────────────────────────────────────────────────
 
-function checkUrl(target) {
-  return new Promise((resolve) => {
-    const start = Date.now();
-    const mod = target.startsWith("https") ? https : http;
-    const req = mod.get(target, { timeout: HTTP_TIMEOUT_MS, rejectUnauthorized: false }, (res) => {
-      // Consume body so the socket can be freed
-      res.resume();
-      res.on("end", () => {
-        resolve({ ok: res.statusCode >= 200 && res.statusCode < 400, status: res.statusCode, ms: Date.now() - start });
-      });
+async function checkUrl(target) {
+  const start = Date.now();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), HTTP_TIMEOUT_MS);
+  try {
+    const res = await fetch(target, {
+      method: "GET",
+      redirect: "follow",
+      signal: controller.signal,
     });
-    req.on("timeout", () => { req.destroy(); resolve({ ok: false, status: null, ms: Date.now() - start, error: "Timeout" }); });
-    req.on("error", (err) => { resolve({ ok: false, status: null, ms: Date.now() - start, error: err.message }); });
-  });
+    clearTimeout(timer);
+    // Consume body to release resources
+    await res.text();
+    const ms = Date.now() - start;
+    return { ok: res.status < 500, status: res.status, ms, finalUrl: res.url };
+  } catch (err) {
+    clearTimeout(timer);
+    const ms = Date.now() - start;
+    const error = err.name === "AbortError" ? "Timeout" : err.message;
+    return { ok: false, status: null, ms, error };
+  }
 }
 
 function checkTcp(host, port) {

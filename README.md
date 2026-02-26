@@ -13,8 +13,8 @@ A lightweight, zero-dependency uptime monitor powered by **GitHub Actions** and 
 ```
 .github/workflows/uptime.yml   # Scheduled checker workflow
 scripts/checks.js               # Node.js checker (zero deps)
-status.json                      # Written by the workflow
 docs/
+  status.json                    # Written by the workflow
   index.html                     # Dashboard page
   style.css                      # Dashboard styles
   app.js                         # Fetches status.json & renders
@@ -73,7 +73,7 @@ Go to **Actions → Uptime Checks → Run workflow** to trigger a check immediat
 node scripts/checks.js
 ```
 
-This writes `status.json` to the repo root. Open `docs/index.html` in a browser to see the dashboard (you may need a local server for fetch to work):
+This writes `docs/status.json`. Open `docs/index.html` in a browser to see the dashboard (you may need a local server for fetch to work):
 
 ```bash
 npx serve .

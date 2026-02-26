@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const STATUS_URL = "../status.json";
+  const STATUS_URL = "./status.json";
   const REFRESH_INTERVAL = 30_000; // 30 seconds
 
   const $lastChecked = document.getElementById("last-checked");
@@ -33,7 +33,9 @@
 
       const name = document.createElement("span");
       name.className = "name";
-      name.textContent = t.name;
+      const nameText = t.name;
+      const statusSuffix = t.status != null ? " (" + t.status + ")" : "";
+      name.textContent = nameText + statusSuffix;
 
       const meta = document.createElement("span");
       meta.className = "meta";
@@ -57,7 +59,7 @@
 
   async function fetchStatus() {
     try {
-      const res = await fetch(STATUS_URL + "?_=" + Date.now());
+      const res = await fetch(STATUS_URL + "?ts=" + Date.now(), { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
       renderTargets(data);
