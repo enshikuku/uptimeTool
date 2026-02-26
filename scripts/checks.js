@@ -23,7 +23,6 @@ const TARGETS = [
   { type: "url", name: "Bikexify App", target: "https://app.bikexify.co.ke" },
   { type: "url", name: "Bikexify API", target: "https://api.bikexify.co.ke" },
   { type: "url", name: "Bikexify", target: "https://bikexify.co.ke" },
-  { type: "url", name: "Innovation Week", target: "https://innovationweek.uoeld.ac.ke" },
 
   // TCP port checks
   { type: "tcp", name: "Denmark SSH", target: "193.181.211.219:22" },
