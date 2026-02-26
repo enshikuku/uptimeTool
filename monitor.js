@@ -1,6 +1,6 @@
 const net = require('net');
 
-const CHECK_INTERVAL_MS = 60_000;
+const CHECK_INTERVAL_MS = 15_000;
 const HTTP_TIMEOUT_MS = 9_000;
 const TCP_TIMEOUT_MS = 5_000;
 
