@@ -1,24 +1,12 @@
 const net = require('net');
+const { URL_TARGETS, TCP_TARGETS } = require('./monitor/targets');
 
 const CHECK_INTERVAL_MS = 15_000;
 const HTTP_TIMEOUT_MS = 9_000;
 const TCP_TIMEOUT_MS = 5_000;
 
-const websiteTargets = [
-  { name: 'AIMHub Lighthouses', url: 'https://aimhublighthouses.uoeld.ac.ke' },
-  { name: 'AIMHub API', url: 'https://aimhub-api.duckdns.org/' },
-  { name: 'Flycation KE', url: 'https://flycationke.duckdns.org/' },
-  { name: 'Flycation KE API', url: 'https://flycationke-api.duckdns.org/' },
-  { name: 'Pathle Consultants', url: 'https://pathleconsultants.duckdns.org/' },
-  { name: 'Bikexify App', url: 'https://app.bikexify.co.ke' },
-  { name: 'Bikexify API', url: 'https://api.bikexify.co.ke' },
-  { name: 'Bikexify', url: 'https://bikexify.co.ke' },
-];
-
-const serverTargets = [
-  { name: 'Server 193.181.211.219', host: '193.181.211.219', port: 22 },
-  { name: 'Server 41.89.169.160', host: '41.89.169.160', port: 9160 },
-];
+const websiteTargets = URL_TARGETS;
+const serverTargets = TCP_TARGETS;
 
 const targetStats = new Map();
 
