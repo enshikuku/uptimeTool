@@ -39,6 +39,21 @@ const URL_TARGETS = [
     name: 'Bikexify',
     url: 'https://bikexify.co.ke',
   },
+  {
+    id: 'url-bikexify-duckdns',
+    name: 'Bikexify DuckDNS',
+    url: 'https://bikexify.duckdns.org',
+  },
+  {
+    id: 'url-bikexify-api-duckdns',
+    name: 'Bikexify API DuckDNS',
+    url: 'https://bikexify-api.duckdns.org',
+  },
+  {
+    id: 'url-bikexify-submission-duckdns',
+    name: 'Bikexify Submission DuckDNS',
+    url: 'https://bikexify-submission.duckdns.org',
+  },
 ];
 
 const TCP_TARGETS = [
